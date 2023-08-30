@@ -11,12 +11,23 @@ const PORT = process.env.PORT || 4000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
 // routes for authentication - candidate and recruiter
-// const authRoute = require("./routes/auth");
 const authRoute = require("./routes/auth");
+// routes for candidates
+const candidateRoutes = require("./routes/candidate");
+// routes for recruiters
+const recruiterRoutes = require("./routes/recruiter");
 
 // application route setup - authenticatoin
 app.use("/api/auth", authRoute);
+// appication route setup - candidate features
+app.use("/api/candidate", candidateRoutes);
+
+// appication route setup - recruiter features
+app.use("/api/recruiter", recruiterRoutes);
 
 // database connection and running the server app
 const connect = async () => {
