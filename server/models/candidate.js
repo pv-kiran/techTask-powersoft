@@ -17,6 +17,9 @@ const candidateSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  token: {
+    type: String,
+  },
 });
 
 const Candidate = mongoose.model("candidate", candidateSchema);

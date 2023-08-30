@@ -12,12 +12,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // routes for authentication - candidate and recruiter
-const candidateAuth = require("./routes/candidateAuth");
-const recruiterAuth = require("./routes/recruiterAuth");
+// const authRoute = require("./routes/auth");
+const authRoute = require("./routes/auth");
 
 // application route setup - authenticatoin
-app.use("/api/candidate/auth", candidateAuth);
-app.use("/api/recruiter/auth", recruiterAuth);
+app.use("/api/auth", authRoute);
 
 // database connection and running the server app
 const connect = async () => {

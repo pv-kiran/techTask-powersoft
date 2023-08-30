@@ -17,7 +17,10 @@ const recruiterSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  token: {
+    type: String,
+  },
 });
 
-const Recruiter = mongoose.model("candidate", recruiterSchema);
+const Recruiter = mongoose.model("recruiter", recruiterSchema);
 module.exports = Recruiter;
