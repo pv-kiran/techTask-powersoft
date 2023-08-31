@@ -30,7 +30,6 @@ const recruiterRoutes = require("./routes/recruiter");
 app.use("/api/auth", authRoute);
 // appication route setup - candidate features
 app.use("/api/candidate", candidateRoutes);
-
 // appication route setup - recruiter features
 app.use("/api/recruiter", recruiterRoutes);
 

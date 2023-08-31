@@ -33,8 +33,8 @@ function Navbar() {
               </>
             ) : (
               <>
-                <NavLink text={"Appointmets"} path={"/schedule/book"} />
-                <NavLink text={"View"} path={"/schedule/view"} />
+                <NavLink text={"Booking"} path={"/schedule/book"} />
+                <NavLink text={"Appointments"} path={"/schedule/view"} />
                 <Signout role={authState?.role} />
               </>
             )

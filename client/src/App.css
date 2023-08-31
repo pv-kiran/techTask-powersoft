@@ -3,3 +3,22 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.fc-toolbar-chunk .fc-button {
+  text-transform: uppercase;
+}
+
+.fc .fc-timegrid-slot {
+  height: 5.5rem;
+}
+
+/* .fc-col-header .fc-day-fri ,.fc-col-header .fc-day-sat,.fc-col-header .fc-day-sun {
+background-color: rgb(135, 34, 34);
+} */
+.red-column {
+  background-color: rgb(197, 74, 74);
+}
+
+.green-event {
+  background-color: green;
+}

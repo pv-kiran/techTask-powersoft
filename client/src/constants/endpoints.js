@@ -2,12 +2,14 @@ export const Baseurl = `http://localhost:4000/api`;
 
 export const API_ENDPOINTS = {
   SIGNUP: (role) => {
-    return `http://localhost:4000/api/auth/${role}/signup`;
+    return `/auth/${role}/signup`;
   },
   SIGNIN: (role) => {
-    return `http://localhost:4000/api/auth/${role}/signin`;
+    return `/auth/${role}/signin`;
   },
   SIGNOUT: (role) => {
-    return `http://localhost:4000/api/auth/${role}/signout`;
+    return `/auth/${role}/signout`;
   },
+  // endpoint for get and post - schedule by recruiter
+  RECRUITER_SCHEDULE: `/recruiter/schedule`,
 };

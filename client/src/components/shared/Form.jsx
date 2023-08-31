@@ -15,7 +15,7 @@ import svg from "/pngwing.com.png";
 import { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { apiInstance } from "../../api/axiosInstance";
+import { uninterceptedApiInstance } from "../../api/axiosInstance";
 import { API_ENDPOINTS } from "../../constants/endpoints";
 import { AuthContext } from "../../context/AuthProvider";
 
@@ -94,8 +94,6 @@ function Form({ formType }) {
     e.preventDefault();
     let isValid = true;
 
-    console.log(formType);
-
     if (formType === "signup") {
       if (user.name.length < 5) {
         newErrors.name = "Name must be at least 5 characters";
@@ -138,27 +136,32 @@ function Form({ formType }) {
       const role = isCandidate ? "candidate" : "recruiter";
       if (formType === "signup") {
         try {
-          const { data } = await apiInstance.post(
+          const { data } = await uninterceptedApiInstance.post(
             API_ENDPOINTS.SIGNUP(role),
-            user
+            user,
+            {
+              validateStatus: null,
+            }
           );
           navigate("/signin");
         } catch (err) {
           const { response } = err;
-          console.log(response.message);
         }
       } else {
         try {
-          const { data } = await apiInstance.post(
+          console.log("HEllo SIGNIN");
+          const { data } = await uninterceptedApiInstance.post(
             API_ENDPOINTS.SIGNIN(role),
-            user
+            user,
+            {
+              validateStatus: null,
+            }
           );
+          console.log("HEllo");
           localStorage.setItem("user", JSON.stringify(data.user));
           setAuthState();
-          console.log(data);
         } catch (err) {
           const { response } = err;
-          console.log(response.data.message);
         }
       }
     }
