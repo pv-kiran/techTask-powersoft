@@ -1,4 +1,4 @@
-function Welcome() {
+function BookSchedule() {
   return (
     <div
       style={{
@@ -9,9 +9,9 @@ function Welcome() {
         justifyContent: "center",
         alignItems: "center",
       }}>
-      Welcome
+      BOOK SCHEDULE
     </div>
   );
 }
 
-export default Welcome;
+export default BookSchedule;

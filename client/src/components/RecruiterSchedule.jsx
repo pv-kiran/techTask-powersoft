@@ -1,4 +1,4 @@
-function Welcome() {
+function RecruiterSchedule() {
   return (
     <div
       style={{
@@ -9,9 +9,9 @@ function Welcome() {
         justifyContent: "center",
         alignItems: "center",
       }}>
-      Welcome
+      ADD SCHEDULE
     </div>
   );
 }
 
-export default Welcome;
+export default RecruiterSchedule;

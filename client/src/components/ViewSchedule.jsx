@@ -1,4 +1,4 @@
-function Welcome() {
+function ViewSchedule() {
   return (
     <div
       style={{
@@ -9,9 +9,9 @@ function Welcome() {
         justifyContent: "center",
         alignItems: "center",
       }}>
-      Welcome
+      VIEW SCHEDULE
     </div>
   );
 }
 
-export default Welcome;
+export default ViewSchedule;

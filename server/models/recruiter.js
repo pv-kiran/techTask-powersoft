@@ -20,6 +20,10 @@ const recruiterSchema = mongoose.Schema({
   token: {
     type: String,
   },
+  role: {
+    type: String,
+    default: "recruiter",
+  },
 });
 
 const Recruiter = mongoose.model("recruiter", recruiterSchema);

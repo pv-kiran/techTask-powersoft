@@ -20,6 +20,10 @@ const candidateSchema = mongoose.Schema({
   token: {
     type: String,
   },
+  role: {
+    type: String,
+    default: "candidate",
+  },
 });
 
 const Candidate = mongoose.model("candidate", candidateSchema);

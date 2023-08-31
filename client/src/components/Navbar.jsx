@@ -1,11 +1,15 @@
-import Button from "@mui/material/Button";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+
+import { AuthContext } from "../context/AuthProvider";
+import { useContext } from "react";
+import NavLink from "./shared/NavLink";
+import Signout from "./SignoutBtn";
 
 function Navbar() {
+  const { authState } = useContext(AuthContext);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -18,26 +22,25 @@ function Navbar() {
         }}>
         <Toolbar>
           <Typography variant="h4" noWrap component="div">
-            Scheduler
+            SCHEDULER
           </Typography>
           <Box sx={{ flexGrow: 1 }}></Box>
-          <Button
-            component={Link}
-            to="/signin"
-            sx={{
-              border: "1px #0AE4B3 solid",
-              color: "#0AE4B3",
-              backgroundColor: "white",
-              borderColor: "#0AE4B3",
-              padding: ".6rem",
-              fontWeight: "200",
-              "&:hover": {
-                backgroundColor: "#0AE4B3",
-                color: "white",
-              },
-            }}>
-            Sign up / Login
-          </Button>
+          {authState ? (
+            authState.role === "recruiter" ? (
+              <>
+                <NavLink text={"Scheduling"} path={"/scheduling"} />
+                <Signout role={authState?.role} />
+              </>
+            ) : (
+              <>
+                <NavLink text={"Appointmets"} path={"/schedule/book"} />
+                <NavLink text={"View"} path={"/schedule/view"} />
+                <Signout role={authState?.role} />
+              </>
+            )
+          ) : (
+            <NavLink text={"Signup / Signin"} path={"/signin"} />
+          )}
         </Toolbar>
       </AppBar>
     </Box>

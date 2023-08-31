@@ -1,6 +1,7 @@
+/* eslint-disable no-useless-escape */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useContext } from "react";
 
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -9,11 +10,14 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 
-import svg from "../../../public/pngwing.com.png";
+import svg from "/pngwing.com.png";
 
 import { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { apiInstance } from "../../api/axiosInstance";
+import { API_ENDPOINTS } from "../../constants/endpoints";
+import { AuthContext } from "../../context/AuthProvider";
 
 const ColorButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#0AE4B3",
@@ -29,8 +33,9 @@ const ColorButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-function UserForm({ formType }) {
+function Form({ formType }) {
   const [isCandidate, setIsDoctor] = useState(true);
+  const { setAuthState } = useContext(AuthContext);
 
   const formData =
     formType === "signup"
@@ -46,10 +51,24 @@ function UserForm({ formType }) {
         };
 
   const [user, setUser] = useState(formData);
+  const [formErrors, setFormErrors] = useState({
+    email: "",
+    password: "",
+    name: "",
+    mobile: "",
+  });
+
+  let newErrors = { email: "", password: "", name: "", mobile: "" };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    setFormErrors((prev) => {
+      return {
+        ...prev,
+        [name]: "",
+      };
+    });
     setUser((prev) => {
       return {
         ...prev,
@@ -58,9 +77,91 @@ function UserForm({ formType }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const validateEmail = (email) => {
+    // Regular expression to check for valid email format
+    const re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    return re.test(email);
+  };
+  const validateMobile = (mobile) => {
+    // Regular expression to check for valid 10-digit mobile number format
+    const re = /^[0-9]{10}$/;
+    return re.test(mobile);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
+    let isValid = true;
+
+    console.log(formType);
+
+    if (formType === "signup") {
+      if (user.name.length < 5) {
+        newErrors.name = "Name must be at least 5 characters";
+        isValid = false;
+      }
+
+      if (/\d/.test(user.name)) {
+        newErrors.name = "Name must not include numbers";
+        isValid = false;
+      }
+
+      if (!validateMobile(user.mobile)) {
+        newErrors.mobile = "Invalid mobile number";
+        isValid = false;
+      }
+    }
+
+    if (!validateEmail(user.email)) {
+      newErrors.email = "Invalid email format";
+      isValid = false;
+    }
+
+    if (
+      !/[a-zA-Z]/.test(user.password) ||
+      !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(user.password)
+    ) {
+      newErrors.password =
+        "Password must include a character and a special character";
+      isValid = false;
+    }
+
+    if (user.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+      isValid = false;
+    }
+
+    setFormErrors(newErrors);
+
+    if (isValid) {
+      const role = isCandidate ? "candidate" : "recruiter";
+      if (formType === "signup") {
+        try {
+          const { data } = await apiInstance.post(
+            API_ENDPOINTS.SIGNUP(role),
+            user
+          );
+          navigate("/signin");
+        } catch (err) {
+          const { response } = err;
+          console.log(response.message);
+        }
+      } else {
+        try {
+          const { data } = await apiInstance.post(
+            API_ENDPOINTS.SIGNIN(role),
+            user
+          );
+          localStorage.setItem("user", JSON.stringify(data.user));
+          setAuthState();
+          console.log(data);
+        } catch (err) {
+          const { response } = err;
+          console.log(response.data.message);
+        }
+      }
+    }
   };
 
   return (
@@ -148,6 +249,8 @@ function UserForm({ formType }) {
               }}
               name="name"
               onChange={(e) => handleChange(e)}
+              error={Boolean(formErrors.name)}
+              helperText={formErrors.name}
             />
           )}
           <TextField
@@ -160,6 +263,8 @@ function UserForm({ formType }) {
             }}
             name="email"
             onChange={(e) => handleChange(e)}
+            error={Boolean(formErrors.email)}
+            helperText={formErrors.email}
           />
           {formType === "signup" && (
             <TextField
@@ -173,6 +278,8 @@ function UserForm({ formType }) {
               name="mobile"
               type="text"
               onChange={(e) => handleChange(e)}
+              error={Boolean(formErrors.mobile)}
+              helperText={formErrors.mobile}
             />
           )}
           <TextField
@@ -186,6 +293,8 @@ function UserForm({ formType }) {
             name="password"
             type="password"
             onChange={(e) => handleChange(e)}
+            error={Boolean(formErrors.password)}
+            helperText={formErrors.password}
           />
           <Box
             sx={{
@@ -218,4 +327,4 @@ function UserForm({ formType }) {
   );
 }
 
-export default UserForm;
+export default Form;

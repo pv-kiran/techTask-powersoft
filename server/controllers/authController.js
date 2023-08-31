@@ -80,7 +80,7 @@ const candidateSignin = async (req, res) => {
 
       return res.status(200).cookie("token", token, options).json({
         success: true,
-        candidateExist,
+        user: candidateExist,
       });
     }
     // incorrect password
@@ -182,7 +182,7 @@ const recruiterSignin = async (req, res) => {
 
       return res.status(200).cookie("token", token, options).json({
         success: true,
-        recruiterExist,
+        user: recruiterExist,
       });
     }
     // incorrect password
