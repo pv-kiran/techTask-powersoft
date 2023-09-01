@@ -12,4 +12,14 @@ export const API_ENDPOINTS = {
   },
   // endpoint for get and post - schedule by recruiter
   RECRUITER_SCHEDULE: `/recruiter/schedule`,
+  ALL_RECRUITERS: `candidate/get/recruiters`,
+  // endpoint for fetching schedules of specific recruiter
+  RECRUITER_SCHEDULES: (recruiterId, date) => {
+    return `/candidate/get/schedules/${recruiterId}/${date}`;
+  },
+  // booking schedule by candidate
+  SCHEDULE_BOOKING: (scheduleId) => {
+    return `/candidate/schedule/${scheduleId}/book`;
+  },
+  CANDIDATE_SCHEDULE: `/candidate/schedules`,
 };

@@ -3,11 +3,15 @@ const mongoose = require("mongoose");
 const scheduleSchema = new mongoose.Schema({
   recruiterId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Recruiter",
+    ref: "recruiter",
   },
   candidateId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Candidate",
+  },
+  meetDate: {
+    type: String,
+    required: true,
   },
   title: {
     type: String,
