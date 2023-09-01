@@ -7,6 +7,7 @@ import ModalInfo from "./shared/ModalInfo";
 function ViewSchedule() {
   const [schedules, setSchedules] = useState([]);
 
+  // fetch the schedulings of logged in user
   const fetchSchedules = async () => {
     try {
       const { data } = await apiInstance.get(API_ENDPOINTS.CANDIDATE_SCHEDULE);

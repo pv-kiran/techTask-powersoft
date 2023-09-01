@@ -7,7 +7,7 @@ const scheduleSchema = new mongoose.Schema({
   },
   candidateId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Candidate",
+    ref: "candidate",
   },
   meetDate: {
     type: String,

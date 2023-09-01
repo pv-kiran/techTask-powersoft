@@ -9,7 +9,7 @@
 }
 
 .fc .fc-timegrid-slot {
-  height: 5.5rem;
+  height: 6rem;
 }
 
 /* .fc-col-header .fc-day-fri ,.fc-col-header .fc-day-sat,.fc-col-header .fc-day-sun {
@@ -20,5 +20,5 @@ background-color: rgb(135, 34, 34);
 }
 
 .green-event {
-  background-color: green;
+  background-color: #42F5B9;
 }

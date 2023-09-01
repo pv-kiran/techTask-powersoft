@@ -3,7 +3,9 @@ const Schedule = require("../models/schedule");
 const getSchedule = async (req, res) => {
   const recruiterId = req.userId;
   try {
-    const schedules = await Schedule.find({ recruiterId: recruiterId });
+    const schedules = await Schedule.find({
+      recruiterId: recruiterId,
+    }).populate("candidateId", "-password");
     res.status(200).json({
       status: true,
       schedules,

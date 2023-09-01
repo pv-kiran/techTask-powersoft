@@ -16,6 +16,7 @@ import { API_ENDPOINTS } from "../constants/endpoints";
 
 import "../App.css";
 
+// import LockIcon from "@mui/icons-material/Lock";
 const RecruiterSchedule = () => {
   // states related to calender events
   const [events, setEvents] = useState([]);
@@ -220,14 +221,28 @@ const RecruiterSchedule = () => {
 // for rendering scheduled events
 function renderEventContent(eventInfo) {
   const { timeText, event } = eventInfo;
+  console.log(event.extendedProps.candidateId);
   return (
-    <>
-      <Typography variant="h6">{timeText}</Typography>
-      <Typography variant="subtitle1">{event.title}</Typography>
-      <Typography variant="subtitle2">
-        {event.extendedProps.description}
+    <Box
+      sx={{
+        padding: ".1rem",
+      }}>
+      <Typography variant="h6" color="black">
+        {timeText}
       </Typography>
-    </>
+      <Typography variant="subtitle1">{event.title}</Typography>
+      {event.extendedProps.isBooked ? (
+        <Typography variant="subtitle1">
+          <span>Candidate: {event.extendedProps.candidateId.name}</span> -{" "}
+          <span>Email: {event.extendedProps.candidateId.email}</span>
+        </Typography>
+      ) : (
+        <Typography variant="subtitle1">
+          {event.extendedProps.description}
+        </Typography>
+      )}
+      {/* {event.extendedProps.isBooked && <LockIcon></LockIcon>} */}
+    </Box>
   );
 }
 
