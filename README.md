@@ -1,6 +1,6 @@
 # Schedule - Tech Task by Powersoft
 
-Brief description of your project.
+This is an HR calendar application. It helps HR teams to set up their available times for meetings. Candidates can view these available times, choose a slot, and book it.
 
 ## Table of Contents
 
