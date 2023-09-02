@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -36,6 +36,8 @@ const ColorButton = styled(Button)(({ theme }) => ({
 function Form({ formType }) {
   const [isCandidate, setIsDoctor] = useState(true);
   const { setAuthState } = useContext(AuthContext);
+
+  const [error, setError] = useState(null);
 
   const formData =
     formType === "signup"
@@ -138,34 +140,39 @@ function Form({ formType }) {
         try {
           const { data } = await uninterceptedApiInstance.post(
             API_ENDPOINTS.SIGNUP(role),
-            user,
-            {
-              validateStatus: null,
-            }
+            user
           );
           navigate("/signin");
         } catch (err) {
           const { response } = err;
+          setError(response.data.message);
         }
       } else {
         try {
           console.log("HEllo SIGNIN");
           const { data } = await uninterceptedApiInstance.post(
             API_ENDPOINTS.SIGNIN(role),
-            user,
-            {
-              validateStatus: null,
-            }
+            user
           );
           console.log("HEllo");
           localStorage.setItem("user", JSON.stringify(data.user));
           setAuthState();
         } catch (err) {
           const { response } = err;
+          console.log(response.data.message);
+          setError(response.data.message);
         }
       }
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
+    }
+  }, [error]);
 
   return (
     <Grid
@@ -223,7 +230,7 @@ function Form({ formType }) {
                 fontSize: { lg: "1.6rem", md: "1rem", sm: ".9rem" },
               }}>
               {isCandidate
-                ? `Cadidate ${
+                ? `Candidate ${
                     formType.charAt(0).toUpperCase() + formType.slice(1)
                   }`
                 : `Recruiter ${
@@ -325,6 +332,16 @@ function Form({ formType }) {
           </Box>
           <ColorButton type="submit">{formType.toUpperCase()}</ColorButton>
         </Box>
+        {error && (
+          <Typography
+            sx={{
+              marginLeft: "2rem",
+              color: "red",
+              textAlign: "center",
+            }}>
+            {error}
+          </Typography>
+        )}
       </Grid>
     </Grid>
   );

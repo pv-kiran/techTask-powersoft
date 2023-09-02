@@ -8,6 +8,9 @@ import Typography from "@mui/material/Typography";
 import { Button, Paper, TextField } from "@mui/material";
 import Modal from "@mui/material/Modal";
 
+import LockIcon from "@mui/icons-material/Lock";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+
 import { useEffect, useState } from "react";
 // import { v4 as uuid } from "uuid";
 
@@ -222,10 +225,18 @@ const RecruiterSchedule = () => {
 function renderEventContent(eventInfo) {
   const { timeText, event } = eventInfo;
   console.log(event.extendedProps.candidateId);
+  const style = {
+    position: "absolute",
+    top: "1.5rem",
+    right: "1.5rem",
+    fontSize: "2rem",
+    color: "black",
+  };
   return (
     <Box
       sx={{
         padding: ".1rem",
+        position: "relative",
       }}>
       <Typography variant="h6" color="black">
         {timeText}
@@ -241,7 +252,11 @@ function renderEventContent(eventInfo) {
           {event.extendedProps.description}
         </Typography>
       )}
-      {/* {event.extendedProps.isBooked && <LockIcon></LockIcon>} */}
+      {event.extendedProps.isBooked ? (
+        <LockIcon sx={style}></LockIcon>
+      ) : (
+        <LockOpenIcon sx={style}></LockOpenIcon>
+      )}
     </Box>
   );
 }
